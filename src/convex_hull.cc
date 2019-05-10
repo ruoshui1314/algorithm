@@ -65,6 +65,7 @@ Point next_to_top(vector<Point>& stack) {
     return next;
 }
 
+// GRAHAM SCAN CONVEX HULL
 vector<Point> convex_hull(vector<Point>& points) {
     vector<Point> stack;
     if (points.empty())
