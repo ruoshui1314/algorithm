@@ -45,10 +45,6 @@ public:
     float y;
 };
 
-float cross(const Point& p0, const Point& p1, const Point& p2) {
-    return (p1.x - p0.x) * (p2.y - p0.y) - (p2.x - p0.x) * (p1.y - p0.y);
-}
-
 vector<Point> get_axes(const vector<Point>& convex_hull)
 {
     vector<Point> axes;
@@ -76,12 +72,6 @@ pair<float, float> get_projection(const vector<Point>& convex_hull, const Point&
             max = projection;
     }
     return make_pair(min, max);
-}
-
-bool onsegment(const Point& pi, const Point& pj, const Point& pk) {
-    if (min(pi.x, pj.x) <= pk.x && max(pi.x, pj.x) >= pk.x && min(pi.y, pj.y) <= pk.y && max(pi.y, pj.y) >= pk.y)
-        return true;
-    return false;
 }
 
 bool check_projection_overlap(const vector<Point>& A, const vector<Point>& B, const vector<Point>& axes) {
