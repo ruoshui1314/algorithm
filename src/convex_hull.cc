@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
-#include<algorithm>
+#include <algorithm>
+#include <functional>
 #include<cmath>
 
 using namespace std;
@@ -44,16 +45,11 @@ int orientation(const Point& p, const Point& q, const Point& r) {
     return (val > FLOAT_EPS) ? 1 : 2; // clock or counterclock wise
 }
 
-
-Point p0;
-
-int compare_point(const void *ptr1, const void *ptr2) {
-    Point *p1 = (Point *)ptr1;
-    Point *p2 = (Point *)ptr2;
+int compare_point(const Point& p1, const Point& p2, const Point& p0) {
     // Find orientation
-    int tmp = orientation(p0, *p1, *p2);
+    int tmp = orientation(p0, p1, p2);
     if (tmp == 0)
-        return (p2->get_instance_square(p0) - p1->get_instance_square(p0) >= FLOAT_EPS) ? -1 : 1;
+        return (p2.get_instance_square(p0) - p1.get_instance_square(p0) >= FLOAT_EPS) ? -1 : 1;
     return (tmp == 2)? -1: 1;
 }
 
@@ -78,8 +74,9 @@ vector<Point> convex_hull(vector<Point>& points) {
             min_index = i;
     }
     swap(points[0], points[min_index]);
-    p0 = points[0];
-    qsort(&points[1], points.size()-1, sizeof(Point), compare_point);
+
+    Point p0 = points[0];
+    sort(++points.begin(), points.end(), std::bind(compare_point, std::placeholders::_1, std::placeholders::_2, p0));
     size_t m = 1;
     // Keep removing i while angle of i and i+1 is same with respect to p0
     for (size_t i = 1; i < points.size(); ++i) {
