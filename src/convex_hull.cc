@@ -45,12 +45,12 @@ int orientation(const Point& p, const Point& q, const Point& r) {
     return (val > FLOAT_EPS) ? 1 : 2; // clock or counterclock wise
 }
 
-int compare_point(const Point& p1, const Point& p2, const Point& p0) {
+bool compare_point(const Point& p1, const Point& p2, const Point& p0) {
     // Find orientation
     int tmp = orientation(p0, p1, p2);
     if (tmp == 0)
-        return (p2.get_instance_square(p0) - p1.get_instance_square(p0) >= FLOAT_EPS) ? -1 : 1;
-    return (tmp == 2)? -1: 1;
+        return p2.get_instance_square(p0) - p1.get_instance_square(p0) >= FLOAT_EPS;
+    return tmp == 2;
 }
 
 Point next_to_top(vector<Point>& stack) {
